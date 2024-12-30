@@ -1,0 +1,40 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// prisma cria uma tabela intermediária para many-to-many automaticamente
+model Restaurant {
+  id                    String     @id @default(uuid())
+  name                  String
+  image_url             String
+  delivery_fee          Decimal    @db.Decimal(10, 2)
+  delivery_time_minutes Int
+  categories            Category[] // Many-to-Many: Um restaurante pode estar associado a várias categorias, e uma categoria pode ter vários restaurantes.
+  Product               Product[] // One-to-Many: Um restaurante pode ter vários produtos, mas cada produto pertence a um único restaurante.
+}
+
+model Category {
+  id          String       @id @default(uuid())
+  name        String
+  image_url   String
+  restaurants Restaurant[] // Many-to-Many: Uma categoria pode ter vários restaurantes associados, e um restaurante pode pertencer a várias categorias.
+  Product     Product[]    // One-to-Many: Uma categoria pode ter vários produtos associados, mas cada produto pertence a uma única categoria.
+}
+
+model Product {
+  id                  String     @id @default(uuid())
+  name                String
+  description         String
+  image_url           String
+  price               Decimal    @db.Decimal(10, 2)
+  discount_percentage Int        @default(0)
+  restaurant_id       String
+  restaurant          Restaurant @relation(fields: [restaurant_id], references: [id]) // One-to-Many: Um produto pertence a um único restaurante, mas um restaurante pode ter vários produtos.
+  category_id         String
+  category            Category   @relation(fields: [category_id], references: [id]) // One-to-Many: Um produto pertence a uma única categoria, mas uma categoria pode ter vários produtos.
+}

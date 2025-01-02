@@ -1,11 +1,7 @@
 {
-  "extends": ["@rocketseat/eslint-config/next", "next/core-web-vitals"],
-  "rules": {
-    "prettier/prettier": [
-      "error",
-      {
-        "semi": true
-      }
-    ]
-  }
+  "extends": [
+    "@rocketseat/eslint-config/next",
+    "next/core-web-vitals",
+    "plugin:tailwindcss/recommended"
+  ]
 }

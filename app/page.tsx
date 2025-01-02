@@ -1,9 +1,7 @@
-const Home = () => {
-  return (
-    <div className="flex flex-col items-center justify-center">
-      <h1>Home</h1>
-    </div>
-  );
-};
+import Header from './_components/header'
 
-export default Home;
+const Home = () => {
+  return <Header />
+}
+
+export default Home
